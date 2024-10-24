@@ -2,6 +2,7 @@ package com.dkd.manage.service;
 
 import java.util.List;
 import com.dkd.manage.domain.Region;
+import com.dkd.manage.domain.vo.RegionVo;
 
 /**
  * 区域管理Service接口
@@ -26,6 +27,14 @@ public interface IRegionService
      * @return 区域管理集合
      */
     public List<Region> selectRegionList(Region region);
+
+    /**
+     * 查询区域管理列表
+     *
+     * @param region 区域管理
+     * @return 区域管理集合
+     */
+    public List<RegionVo> selectRegionVoList(Region region);
 
     /**
      * 新增区域管理

@@ -29,7 +29,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectRegionVo"/>
         where id = #{id}
     </select>
-        
+
+    <select id="selectRegionVoList" resultType="com.dkd.manage.domain.vo.RegionVo">
+        SELECT
+        r.id,
+        r.region_name,
+        r.remark,
+        ifnull(COUNT(n.id), 0) AS node_count
+        FROM
+        tb_region r
+        LEFT JOIN tb_node n ON r.id = n.region_id
+        <where>
+            <if test="regionName != null and regionName != ''">
+                AND r.region_name LIKE CONCAT('%', #{regionName}, '%')
+            </if>
+        </where>
+        GROUP BY
+        r.id, r.region_name, r.remark
+    </select>
+
     <insert id="insertRegion" parameterType="Region" useGeneratedKeys="true" keyProperty="id">
         insert into tb_region
         <trim prefix="(" suffix=")" suffixOverrides=",">
