@@ -44,8 +44,9 @@ public class CaptchaController
      * 生成验证码
      */
     @GetMapping("/captchaImage")
-    public AjaxResult getCode(HttpServletResponse response) throws IOException
-    {
+    public AjaxResult getCode(HttpServletResponse response) throws IOException, InterruptedException {
+//        ssss
+//        Thread.sleep(3000);
         AjaxResult ajax = AjaxResult.success();
         boolean captchaEnabled = configService.selectCaptchaEnabled();
         ajax.put("captchaEnabled", captchaEnabled);

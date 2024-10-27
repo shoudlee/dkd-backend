@@ -40,9 +40,9 @@ public class TestController extends BaseController
 
     @ApiOperation("获取用户列表")
     @GetMapping("/list")
-    public R<List<UserEntity>> userList()
-    {
+    public R<List<UserEntity>> userList() throws InterruptedException {
         List<UserEntity> userList = new ArrayList<UserEntity>(users.values());
+        Thread.sleep(2000);
         return R.ok(userList);
     }
 
