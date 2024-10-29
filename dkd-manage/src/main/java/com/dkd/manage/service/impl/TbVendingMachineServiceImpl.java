@@ -1,6 +1,8 @@
 package com.dkd.manage.service.impl;
 
 import java.util.List;
+
+import cn.hutool.core.bean.BeanUtil;
 import com.dkd.common.utils.DateUtils;
 import com.dkd.common.utils.uuid.UUIDUtils;
 import com.dkd.manage.domain.Node;
@@ -33,6 +35,7 @@ public class TbVendingMachineServiceImpl implements ITbVendingMachineService
     private TbChannelMapper tbChannelMapper;
     @Autowired
     private TbVmTypeMapper tbVmTypeMapper;
+
 
     /**
      * 查询设备
@@ -114,8 +117,13 @@ public class TbVendingMachineServiceImpl implements ITbVendingMachineService
     @Override
     public int updateTbVendingMachine(TbVendingMachine tbVendingMachine)
     {
-        tbVendingMachine.setUpdateTime(DateUtils.getNowDate());
+        //查询点位表，补充 区域、点位、合作商等信息
+        Node node = tbNodeMapper.selectNodeById(tbVendingMachine.getNodeId());
+        BeanUtil.copyProperties(node, tbVendingMachine, "id");// 商圈类型、区域、合作商
+        tbVendingMachine.setAddr(node.getAddress());// 设备地址
+        tbVendingMachine.setUpdateTime(DateUtils.getNowDate());// 更新时间
         return tbVendingMachineMapper.updateTbVendingMachine(tbVendingMachine);
+
     }
 
     /**
