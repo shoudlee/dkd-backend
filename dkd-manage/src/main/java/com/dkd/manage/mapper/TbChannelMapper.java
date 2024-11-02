@@ -58,4 +58,7 @@ public interface TbChannelMapper
      * @return 结果
      */
     public int deleteTbChannelByIds(Long[] ids);
+
+
+    public int countChannelBySkuIds(Long[] skuIds);
 }

@@ -58,4 +58,7 @@ public interface ITbChannelService
      * @return 结果
      */
     public int deleteTbChannelById(Long id);
+
+    ///查询所有货道绑定的特定skuid数量
+    public int countChannelBySkuIds(Long[] skuIds);
 }

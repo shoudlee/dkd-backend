@@ -91,4 +91,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+<select id="countChannelBySkuIds" resultType="Integer">
+    select count(*) from tb_channel where sku_id in
+    <foreach item= "id" collection="array" open="(" separator="," close=")">
+        #{id}
+    </foreach>
+</select>
+
+
 </mapper>

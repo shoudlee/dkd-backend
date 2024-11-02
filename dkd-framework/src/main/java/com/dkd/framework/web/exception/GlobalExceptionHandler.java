@@ -143,9 +143,12 @@ public class GlobalExceptionHandler
     @ExceptionHandler(DataIntegrityViolationException.class)
     public AjaxResult handleSQLException(DataIntegrityViolationException e)
     {
-        if (e.getMessage().contains("foreign")){
-            return AjaxResult.error("无法删除，有其他数据引用");
+        if(e.getMessage().contains("foreign")){
+            return AjaxResult.error("有数据引用，无法删除");
         }
-        return AjaxResult.error("您的操作违反了数据库中的完整性约束");
+        if(e.getMessage().contains("Duplicate")){
+            return AjaxResult.error("值重复，无法新增");
+        }
+        return AjaxResult.error("无法操作，违反了数据完整性");
     }
 }

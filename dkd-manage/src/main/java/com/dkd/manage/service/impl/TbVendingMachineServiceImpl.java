@@ -118,9 +118,11 @@ public class TbVendingMachineServiceImpl implements ITbVendingMachineService
     public int updateTbVendingMachine(TbVendingMachine tbVendingMachine)
     {
         //查询点位表，补充 区域、点位、合作商等信息
-        Node node = tbNodeMapper.selectNodeById(tbVendingMachine.getNodeId());
-        BeanUtil.copyProperties(node, tbVendingMachine, "id");// 商圈类型、区域、合作商
-        tbVendingMachine.setAddr(node.getAddress());// 设备地址
+        if(tbVendingMachine.getNodeId() != null){
+            Node node = tbNodeMapper.selectNodeById(tbVendingMachine.getNodeId());
+            BeanUtil.copyProperties(node, tbVendingMachine, "id");// 商圈类型、区域、合作商
+            tbVendingMachine.setAddr(node.getAddress());// 设备地址
+        }
         tbVendingMachine.setUpdateTime(DateUtils.getNowDate());// 更新时间
         return tbVendingMachineMapper.updateTbVendingMachine(tbVendingMachine);
 

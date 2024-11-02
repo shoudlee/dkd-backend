@@ -15,7 +15,7 @@ import com.dkd.manage.service.ITbChannelService;
  * @date 2024-10-28
  */
 @Service
-public class TbChannelServiceImpl implements ITbChannelService 
+public class TbChannelServiceImpl implements ITbChannelService
 {
     @Autowired
     private TbChannelMapper tbChannelMapper;
@@ -93,4 +93,11 @@ public class TbChannelServiceImpl implements ITbChannelService
     {
         return tbChannelMapper.deleteTbChannelById(id);
     }
+
+    @Override
+    public int countChannelBySkuIds(Long[] skuIds) {
+        return tbChannelMapper.countChannelBySkuIds(skuIds);
+    }
+
+
 }
