@@ -58,4 +58,6 @@ public interface ITbSkuService
      * @return 结果
      */
     public int deleteTbSkuBySkuId(Long skuId);
+
+    int insertSkus(List<TbSku> skuList);
 }

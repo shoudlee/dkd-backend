@@ -65,6 +65,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
+    <insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="skuId">
+    insert into tb_sku (sku_name, sku_image, brand_name, unit, price, class_id)
+    values
+        <foreach collection="list" item="item" index="index" separator=",">
+        (#{item.skuName}, #{item.skuImage}, #{item.brandName}, #{item.unit}, #{item.price}, #{item.classId})
+        </foreach>
+    </insert>
+
     <update id="updateTbSku" parameterType="TbSku">
         update tb_sku
         <trim prefix="SET" suffixOverrides=",">

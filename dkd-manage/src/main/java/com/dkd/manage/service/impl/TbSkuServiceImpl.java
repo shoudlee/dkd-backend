@@ -107,5 +107,14 @@ public class TbSkuServiceImpl implements ITbSkuService
         return tbSkuMapper.deleteTbSkuBySkuId(skuId);
     }
 
+    /*
+    * 批量插入
+    * */
+    @Override
+    public int insertSkus(List<TbSku> skuList) {
+
+        return tbSkuMapper.insertBatch(skuList);
+    }
+
 
 }

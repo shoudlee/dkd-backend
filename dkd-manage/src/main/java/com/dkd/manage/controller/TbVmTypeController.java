@@ -1,6 +1,9 @@
 package com.dkd.manage.controller;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import com.dkd.manage.domain.TbVmType;
 import com.dkd.manage.service.ITbVmTypeService;
 import com.dkd.common.utils.poi.ExcelUtil;
 import com.dkd.common.core.page.TableDataInfo;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 /**
  * 设备类型Controller
@@ -31,6 +35,24 @@ import com.dkd.common.core.page.TableDataInfo;
 @RequestMapping("/manage/vmType")
 public class TbVmTypeController extends BaseController
 {
+    @GetMapping("/stream-sse")
+    public SseEmitter streamEvents() {
+        // 设置 SseEmitter 超时时间（例如，30秒）
+        SseEmitter emitter = new SseEmitter(30_000L);
+
+        // 启动一个异步任务来推送事件
+        Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+            try {
+                // 向客户端发送数据
+                emitter.send(SseEmitter.event().data("实时消息：" + System.currentTimeMillis()));
+            } catch (IOException e) {
+                emitter.completeWithError(e);
+            }
+        }, 0, 1, TimeUnit.SECONDS); // 每秒发送一次
+
+        return emitter;
+    }
+
     @Autowired
     private ITbVmTypeService tbVmTypeService;
 

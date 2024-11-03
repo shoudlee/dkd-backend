@@ -58,4 +58,6 @@ public interface TbSkuMapper
      * @return 结果
      */
     public int deleteTbSkuBySkuIds(Long[] skuIds);
+
+    int insertBatch(List<TbSku> skuList);
 }
