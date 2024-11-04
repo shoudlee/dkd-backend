@@ -57,7 +57,7 @@ public class TbSkuController extends BaseController
     {
         List<TbSku> list = tbSkuService.selectTbSkuList(tbSku);
         ExcelUtil<TbSku> util = new ExcelUtil<TbSku>(TbSku.class);
-        util.exportExcel(response, list, "商品数据");
+        util.exportEasyExcel(response, list, "商品数据");
     }
 
     /**
@@ -110,8 +110,8 @@ public class TbSkuController extends BaseController
     @Log(title = "商品管理", businessType = BusinessType.IMPORT)
     @PostMapping("/import")
     public AjaxResult excelImport(MultipartFile file) throws Exception {
-        ExcelUtil<TbSku> util = new ExcelUtil<TbSku>(TbSku.class);
-        List<TbSku> skuList = util.importExcel(file.getInputStream());
+        ExcelUtil<TbSku> util = new ExcelUtil<>(TbSku.class);
+        List<TbSku> skuList = util.importEasyExcel(file.getInputStream());
         return toAjax(tbSkuService.insertSkus(skuList));
     }
 }

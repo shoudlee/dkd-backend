@@ -2,7 +2,10 @@ package com.dkd.manage.domain;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.dkd.common.annotation.Excel;
@@ -14,7 +17,10 @@ import com.dkd.common.core.domain.BaseEntity;
  * @author ruoyi
  * @date 2024-10-28
  */
+@Data
 @Builder
+@AllArgsConstructor // 生成全参构造函数
+@NoArgsConstructor  // 生成无参构造函数
 public class TbChannel extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
