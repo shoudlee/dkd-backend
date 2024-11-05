@@ -58,4 +58,9 @@ public interface ITbEmpService
      * @return 结果
      */
     public int deleteTbEmpById(Long id);
+
+    /*
+    * 根据machine的inner code获取该地区的运营人员
+    * */
+    public List<TbEmp> selectTbEmpByInnerCode(String innerCode);
 }

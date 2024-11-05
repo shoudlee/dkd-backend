@@ -68,6 +68,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where details_id = #{detailsId}
     </update>
 
+    <insert id="batchInsertTaskDetails">
+        insert into tb_task_details(task_id, channel_code, expect_capacity, sku_id, sku_name, sku_image)
+        values
+            <foreach collection="list" item="item" separator=",">
+                (#{item.taskId}, #{item.channelCode}, #{item.expectCapacity}, #{item.skuId}, #{item.skuName}, #{item.skuImage})
+            </foreach>
+    </insert>
+
     <delete id="deleteTbTaskDetailsByDetailsId" parameterType="Long">
         delete from tb_task_details where details_id = #{detailsId}
     </delete>

@@ -2,6 +2,10 @@ package com.dkd.manage.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.dkd.manage.domain.TbTask;
+import com.dkd.manage.domain.dto.TaskDto;
+import com.dkd.manage.service.ITbTaskService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +37,9 @@ public class TbTaskCollectController extends BaseController
 {
     @Autowired
     private ITbTaskCollectService tbTaskCollectService;
+
+    @Autowired
+    private ITbTaskService tbTaskService;
 
     /**
      * 查询工单按日统计列表
@@ -100,5 +107,28 @@ public class TbTaskCollectController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(tbTaskCollectService.deleteTbTaskCollectByIds(ids));
+    }
+
+    /**
+     * 新增工单
+     */
+    @PreAuthorize("@ss.hasPermi('manage:task:add')")
+    @Log(title = "工单", businessType = BusinessType.INSERT)
+    @PostMapping
+    public AjaxResult add(@RequestBody TaskDto taskDto)
+    {
+        // 设置指派人（登录用户）id
+        taskDto.setAssignorId(getUserId());
+        return toAjax(tbTaskService.insertTaskDto(taskDto));
+    }
+
+    /**
+     * 取消工单
+     */
+    @PreAuthorize("@ss.hasPermi('manage:task:edit')")
+    @Log(title = "工单", businessType = BusinessType.UPDATE)
+    @PutMapping("/cancel")
+    public AjaxResult cancelTask(@RequestBody TbTask task) {
+        return toAjax(tbTaskService.cancelTask(task));
     }
 }

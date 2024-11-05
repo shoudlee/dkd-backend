@@ -1,10 +1,15 @@
 package com.dkd.manage.service.impl;
 
 import java.util.List;
+
+import com.dkd.common.constant.DkdConstants;
+import com.dkd.common.core.domain.AjaxResult;
 import com.dkd.common.utils.DateUtils;
 import com.dkd.manage.domain.TbRole;
+import com.dkd.manage.domain.TbVendingMachine;
 import com.dkd.manage.mapper.RegionMapper;
 import com.dkd.manage.mapper.TbRoleMapper;
+import com.dkd.manage.service.ITbVendingMachineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.dkd.manage.mapper.TbEmpMapper;
@@ -20,6 +25,8 @@ import com.dkd.manage.service.ITbEmpService;
 @Service
 public class TbEmpServiceImpl implements ITbEmpService 
 {
+    @Autowired
+    private ITbVendingMachineService tbVendingMachineService;
     @Autowired
     private TbEmpMapper tbEmpMapper;
 
@@ -112,5 +119,15 @@ public class TbEmpServiceImpl implements ITbEmpService
     public int deleteTbEmpById(Long id)
     {
         return tbEmpMapper.deleteTbEmpById(id);
+    }
+
+    @Override
+    public List<TbEmp> selectTbEmpByInnerCode(String innerCode) {
+        TbVendingMachine vm = tbVendingMachineService.getTbVendingMachineByInnerCode(innerCode);
+        TbEmp empParams = new TbEmp();
+        empParams.setRegionId(vm.getRegionId());
+        empParams.setStatus(DkdConstants.EMP_STATUS_NORMAL);
+        empParams.setRoleId(2L);
+        return tbEmpMapper.selectTbEmpList(empParams);
     }
 }

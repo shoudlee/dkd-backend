@@ -2,6 +2,11 @@ package com.dkd.manage.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.dkd.common.constant.DkdConstants;
+import com.dkd.common.constant.DkdContants;
+import com.dkd.manage.domain.TbVendingMachine;
+import com.dkd.manage.service.ITbVendingMachineService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +38,9 @@ public class TbEmpController extends BaseController
 {
     @Autowired
     private ITbEmpService tbEmpService;
+
+    @Autowired
+    private ITbVendingMachineService tbVendingMachineService;
 
     /**
      * 查询工单员工列表
@@ -100,5 +108,31 @@ public class TbEmpController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(tbEmpService.deleteTbEmpByIds(ids));
+    }
+
+    @PreAuthorize("@ss.hasPermi('manage:emp:list')")
+    @Log(title="工单员工")
+    @GetMapping("/businessList/{innerCode}")
+    public AjaxResult BusinessList(@PathVariable("innerCode") String innerCode){
+        return AjaxResult.success(tbEmpService.selectTbEmpByInnerCode(innerCode));
+    }
+
+    /**
+     * 根据售货机获取运维人员列表
+     */
+    @PreAuthorize("@ss.hasPermi('manage:emp:list')")
+    @GetMapping("/operationList/{innerCode}")
+    public AjaxResult getOperationList(@PathVariable("innerCode") String innerCode) {
+        // 1.查询售货机信息
+        TbVendingMachine vm = tbVendingMachineService.getTbVendingMachineByInnerCode(innerCode);
+        if (vm == null) {
+            return error("售货机不存在");
+        }
+        // 2.根据区域id、角色编号、状态查询运维人员列表
+        TbEmp empParam = new TbEmp();
+        empParam.setRegionId(vm.getRegionId());// 设备所属区域
+        empParam.setStatus(DkdConstants.EMP_STATUS_NORMAL);// 员工启用
+        empParam.setRoleCode(DkdConstants.ROLE_CODE_OPERATOR);// 角色编码：维修员
+        return success(tbEmpService.selectTbEmpList(empParam));
     }
 }

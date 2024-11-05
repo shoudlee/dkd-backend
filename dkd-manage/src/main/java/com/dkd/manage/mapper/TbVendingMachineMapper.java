@@ -58,4 +58,11 @@ public interface TbVendingMachineMapper
      * @return 结果
      */
     public int deleteTbVendingMachineByIds(Long[] ids);
+
+    /*
+    * 根据inner code 检索machine
+    * */
+
+    public TbVendingMachine selectTbVendingMachineByInnerCode(String innerCode);
+
 }

@@ -54,7 +54,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectTbVendingMachineVo"/>
         where id = #{id}
     </select>
-        
+
+    <select id="selectTbVendingMachineByInnerCode" resultType="com.dkd.manage.domain.TbVendingMachine">
+        select * from tb_vending_machine where inner_code = #{innerCode}
+    </select>
+
+
     <insert id="insertTbVendingMachine" parameterType="TbVendingMachine" useGeneratedKeys="true" keyProperty="id">
         insert into tb_vending_machine
         <trim prefix="(" suffix=")" suffixOverrides=",">

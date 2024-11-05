@@ -151,4 +151,13 @@ public class TbVendingMachineServiceImpl implements ITbVendingMachineService
     {
         return tbVendingMachineMapper.deleteTbVendingMachineById(id);
     }
+
+
+    /*
+    * 根据inner code检索machine
+    * */
+    @Override
+    public TbVendingMachine getTbVendingMachineByInnerCode(String innerCode) {
+        return tbVendingMachineMapper.selectTbVendingMachineByInnerCode(innerCode);
+    }
 }

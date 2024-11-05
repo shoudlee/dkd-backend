@@ -101,4 +101,15 @@ public class TbTaskDetailsController extends BaseController
     {
         return toAjax(tbTaskDetailsService.deleteTbTaskDetailsByDetailsIds(detailsIds));
     }
+
+    /**
+     * 查看工单补货详情
+     */
+    @PreAuthorize("@ss.hasPermi('manage:taskDetails:list')")
+    @GetMapping(value = "/byTaskId/{taskId}")
+    public AjaxResult byTaskId(@PathVariable("taskId") Long taskId) {
+        TbTaskDetails taskDetailsParam = new TbTaskDetails();
+        taskDetailsParam.setTaskId(taskId);
+        return success(tbTaskDetailsService.selectTbTaskDetailsList(taskDetailsParam));
+    }
 }
